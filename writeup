@@ -330,17 +330,30 @@
 
 Good morning all,
 
-I am reaching out today to report the results of an investigation I did into any existing data quality issues in the user, transactions, and product tables as well as some insight involving those tables. Before getting to the insight, I'd first like to point out some important data quality issues in these datasets that need to be resolved as soon as possible in order to create more reliable and comprehensive analyses. The current state of the data leads to a very small sample size after joining the tables together and filtering out irrelevant rows. Due to this small sample size, no decisions should be made based on the insight I will discuss below at the moment.
+I am reaching out today to report the results of an investigation I did into any existing data quality issues in the user, transactions, and product tables as well as some insight involving those tables.
+Before getting to the insight, I'd first like to point out some important data quality issues in these datasets that need to be resolved as soon as possible in order to create more reliable and
+comprehensive analyses. The current state of the data leads to a very small sample size after joining the tables together and filtering out irrelevant rows. Due to this small sample size, no decisions
+should be made based on the insight I will discuss below at the moment.
 
-The most glaring issue I found in the data is that the user table seems to be missing a significant number of users. Only 91/17,694 (~0.5%) users that are in the txns table are also in the users table, which leads to a very small sample size when joining these two tables and significantly decreases the reliability of the analyses generated from this data. This is a major issue that needs to be fixed immediately.
+The most glaring issue I found in the data is that the user table seems to be missing a significant number of users. Only 91/17,694 (~0.5%) users that are in the txns table are also in the users table,
+which leads to a very small sample size when joining these two tables and significantly decreases the reliability of the analyses generated from this data. This is a major issue that needs to be fixed
+immediately.
 
-Another major issue has to do with invalid records in the transactions table. Each receipt_id, barcode combination represents 1 transaction and should have 1 row in the table. The table has 50,000 rows, but only 24,485 unique receipt_id, barcode combos meaning there are more invalid records than valid ones. This also means that the table always needs to be cleaned before use in analyses. Additionally, there are many rows in the transactions table with values of 0 in the final_quantity and/or final_sale fields. These are not valid and should be removed.
+Another major issue has to do with invalid records in the transactions table. Each receipt_id, barcode combination represents 1 transaction and should have 1 row in the table. The table has 50,000 rows,
+but only 24,485 unique receipt_id, barcode combos meaning there are more invalid records than valid ones. This also means that the table always needs to be cleaned before use in analyses. Additionally,
+there are many rows in the transactions table with values of 0 in the final_quantity and/or final_sale fields. These are not valid and should be removed.
 
-The other issues are less impactful and have to do with null values in fields that are useful for analysis. For example, there are many null values in the user table for the fields birth_date, state, language, and gender, in the transactions table for the barcode field, and in the products table for the fields category_1, category_2, category_3, category_4, manufacturer, brand and barcode. It is important that we do what we can to fill as many of these values as possible in order to ensure high quality analyses.
+The other issues are less impactful and have to do with null values in fields that are useful for analysis. For example, there are many null values in the user table for the fields birth_date, state,
+language, and gender, in the transactions table for the barcode field, and in the products table for the fields category_1, category_2, category_3, category_4, manufacturer, brand and barcode. It is
+important that we do what we can to fill as many of these values as possible in order to ensure high quality analyses.
 
-One trend I found interesting while looking into this data is that among the top 5 leading brands based on total sales within the "Dips & Salsa" category, Tostito's is in the lead by a large margin with the second place brand (Good Foods) having just over half of Tostito's total sales. However, as I explained above, this insight was based on a very small sample size primarily due to the user issue, and no decisions should be made based off of this yet as once this issue is fixed, it is possible that the top 5 leading brands will look completely different.
+One trend I found interesting while looking into this data is that among the top 5 leading brands based on total sales within the "Dips & Salsa" category, Tostito's is in the lead by a large margin with
+the second place brand (Good Foods) having just over half of Tostito's total sales. However, as I explained above, this insight was based on a very small sample size primarily due to the user issue, and
+no decisions should be made based off of this yet as once this issue is fixed, it is possible that the top 5 leading brands will look completely different.
 
-It is crucial that the data quality issues I mentioned above be resolved as soon as possible so that we can move forward with analyses confidently and ensure that we are only making business decisions based off of good data. One other thing I noticed during this investigation is that there are some decimal values in the final_quantity field in the transactions table for food products that I believe should only have whole number values. I'd like to understand if there is a reason for this or if this is an actual issue. I look forward to getting these issues resolved quickly!
+It is crucial that the data quality issues I mentioned above be resolved as soon as possible so that we can move forward with analyses confidently and ensure that we are only making business decisions
+based off of good data. One other thing I noticed during this investigation is that there are some decimal values in the final_quantity field in the transactions table for food products that I believe
+should only have whole number values. I'd like to understand if there is a reason for this or if this is an actual issue. I look forward to getting these issues resolved quickly!
 
 Best,
 Colin
