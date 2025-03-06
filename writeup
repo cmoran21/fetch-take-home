@@ -32,8 +32,7 @@
 		i. Users
 			- 3,675/100,000 birth_date values are null preventing us from determining the age of those users and thus decreasing the quality and comprehensiveness of analyses involving user age
 
-```
-				with t1 as (
+				```with t1 as (
 					select
 						year(birth_date) as birth_year,
 						count(*) as count
@@ -43,8 +42,7 @@
 				
 				select count
 				from t1
-				where birth_year = 1
-```
+				where birth_year = 1```
 
 			- 4,812/100,000 state values are null preventing us from determing the state of those users and thus decreasing the quality and comprehensiveness of analyses involving user state
 
