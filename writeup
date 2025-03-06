@@ -15,23 +15,24 @@
 			  format in Excel for the purchase_date field that matched the date format of the scan_date field.
 			- There were several barcodes that were formatted like "7.834E+11" in Excel as opposed to the full "783399746536". I switched this column to a number format and removed the decimals to get it 
 			  to show the whole barcode number in each row, which will be important for proper joining to the products table later.
-            - The final_quantity field had many "zero" values which I changed to "0" using find and replace for consistency and so that I could import the field as double type.
-            - The final_sale field had many blank values which I filled in with 0's as well.
-            - The barcode field had many empty values whick I filled in with "NULL" to make the field easier to work with later if needed.
-            - The store_name field had several values with special characters (like "FRESCO Y M√ÅS") which prevented the file from importing all of its rows. I searched the special characters I found in
-the sheet to find other store_name values that needed to be fixed (converted to normal letters) and corrected them as needed using find and replace until all of the file's rows imported properly.
-        iii. Products
-            - Similar to the transactions file, this file had lots of values with special characters across multiple fields (category_3, category_4, manufacturer, and brand) which prevented the file from
-importing all of its rows. I solved this the same way as I did in the last file.
-            - After fixing all of the special character values, I filled all of the empty values with "NULL".
+			- The final_quantity field had many "zero" values which I changed to "0" using find and replace for consistency and so that I could import the field as double type.
+			- The final_sale field had many blank values which I filled in with 0's as well.
+			- The barcode field had many empty values whick I filled in with "NULL" to make the field easier to work with later if needed.
+			- The store_name field had several values with special characters (like "FRESCO Y M√ÅS") which prevented the file from importing all of its rows. I searched the special characters I found in
+			  the sheet to find other store_name values that needed to be fixed (converted to normal letters) and corrected them as needed using find and replace until all of the file's rows imported
+			  properly.
+		iii. Products
+			- Similar to the transactions file, this file had lots of values with special characters across multiple fields (category_3, category_4, manufacturer, and brand) which prevented the file from
+			  importing all of its rows. I solved this the same way as I did in the last file.
+			- After fixing all of the special character values, I filled all of the empty values with "NULL".
+		
+		- The above were all issues that I fixed in the csv files in Excel before uploading them into MySQLWorkbench, either because the file would not upload without fixing them or because it was
+			  easier to fix them in Excel prior to importing. However, there are still additional DQ issues that exist, mostly to do with null values in fields that are useful for analysis:
 
-        - The above were all issues that I fixed in the csv files in Excel before uploading them into MySQLWorkbench, either because the file would not upload without fixing them or because it was easier
-to fix them in Excel prior to importing. However, there are still additional DQ issues that exist, mostly to do with null values in fields that are useful for analysis:
-
-        i. Users
-            - 3,675/100,000 birth_date values are null preventing us from determining the age of those users and thus decreasing the quality and comprehensiveness of analyses involving user age
-
-                with t1 as (
+		i. Users
+			- 3,675/100,000 birth_date values are null preventing us from determining the age of those users and thus decreasing the quality and comprehensiveness of analyses involving user age
+```
+				with t1 as (
 					select
 						year(birth_date) as birth_year,
 						count(*) as count
@@ -42,6 +43,7 @@ to fix them in Excel prior to importing. However, there are still additional DQ 
 				select count
 				from t1
 				where birth_year = 1
+```
 
 			- 4,812/100,000 state values are null preventing us from determing the state of those users and thus decreasing the quality and comprehensiveness of analyses involving user state
 
