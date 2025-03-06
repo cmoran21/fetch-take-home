@@ -87,27 +87,31 @@
 				from t1
 				where gender is null
 
-			- The gender column has multiple sets of values that should be consolidated into a single value. For example, the two values "non_binary" and "Non-Binary" mean the same thing and should be 				  consolidated for consistency/ease of use in analyses. The same goes for the values "not_listed", "My gender isn't listed", and "not_specified" as well as "Prefer not to say" and 						  "prefer_not_to_say".
+			- The gender column has multiple sets of values that should be consolidated into a single value. For example, the two values "non_binary" and "Non-Binary" mean the same thing and should be
+			  consolidated for consistency/ease of use in analyses. The same goes for the values "not_listed", "My gender isn't listed", and "not_specified" as well as "Prefer not to say" and
+			  "prefer_not_to_say".
 
 				select
 					gender,
-				    count(*) as count
+					count(*) as count
 				from users
 				group by 1
 				order by 1
 
 		ii. Transactions
-			- The clearest issue in this table is that every single receipt_id, barcode combo has at least two rows in the dataset. This is problematic because in order to prevent potentially incorrect 				  analysis results when joining to other tables, the table needs to be cleaned before use. Each receipt_id, barcode combo should only have one row.
+			- The clearest issue in this table is that every single receipt_id, barcode combo has at least two rows in the dataset. This is problematic because in order to prevent potentially incorrect
+			  analysis results when joining to other tables, the table needs to be cleaned before use. Each receipt_id, barcode combo should only have one row.
 
 				select
 					receipt_id,
-				    barcode,
-				    count(*) as count
+				    	barcode,
+				    	count(*) as count
 				from txns
 				group by 1,2
 				order by 3
 
-			- Related to the last point, 25,321/50,000 rows have a 0 in either the final_quantity or final_sale fields. These rows should have non-zero values in both fields if they are real transactions, 			  so >50% of this table is not usable. 159/50,000 rows have 0's in both the final_quantity and final_sale fields.
+			- Related to the last point, 25,321/50,000 rows have a 0 in either the final_quantity or final_sale fields. These rows should have non-zero values in both fields if they are real transactions,
+			  so >50% of this table is not usable. 159/50,000 rows have 0's in both the final_quantity and final_sale fields.
 
 				select count(*)
 				from txns
@@ -117,14 +121,16 @@
 				from txns
 				where final_quantity = 0 and final_sale = 0;
 
-			- 5,762/50,000 rows have null barcodes, which is problematic because they will not be able to be used in analyses involving joins to the product table due to their not being able to join on 				  this field
+			- 5,762/50,000 rows have null barcodes, which is problematic because they will not be able to be used in analyses involving joins to the product table due to their not being able to join on
+			  this field
 
 				select count(*)
 				from txns
 				where barcode is null
 
 		iii. Products
-			- 111/845,552 rows have null values in all category fields, which potentially decreases the quality and comprehensiveness of analyses based on category. Categories 2,3, and 4 each have 					  increasing null rates, but this is not necessarily a data quality issue as it is expected that not all rows will have values for all categories
+			- 111/845,552 rows have null values in all category fields, which potentially decreases the quality and comprehensiveness of analyses based on category. Categories 2,3, and 4 each have
+			  increasing null rates, but this is not necessarily a data quality issue as it is expected that not all rows will have values for all categories
 
 				select count(*)
 				from products
@@ -142,15 +148,18 @@
 				from products
 				where brand is null
 
-			- 4,025/845,552 rows have null barcodes, which is problematic because they will not be able to be used in analyses involving joins to the product table due to their not being able to join on 				  this field
+			- 4,025/845,552 rows have null barcodes, which is problematic because they will not be able to be used in analyses involving joins to the product table due to their not being able to join on
+			  this field
 
 				select count(*)
 				from products
 				where barcode is null
 
 
-    b. Are there any fields that are challenging to understand?
-		- For the most part, no, but one thing I looked into was decimal values in the final_quantity field of the transactions table. I ran the below query to isolate these rows and see which products 		  	  they were for. I know that fractional quantities are sometimes valid (like in a cryptocurrency purchase for example), but these were mostly food items, which it doesn't really make sense to have 		  a fractional quantity of. Nevertheless, I chose not to remove these rows from my analyses in part 2 as they otherwise appear to be valid transactions.
+	b. Are there any fields that are challenging to understand?
+		- For the most part, no, but one thing I looked into was decimal values in the final_quantity field of the transactions table. I ran the below query to isolate these rows and see which products
+		  they were for. I know that fractional quantities are sometimes valid (like in a cryptocurrency purchase for example), but these were mostly food items, which it doesn't really make sense to have
+		  a fractional quantity of. Nevertheless, I chose not to remove these rows from my analyses in part 2 as they otherwise appear to be valid transactions.
 
 			select *
 			from txns
