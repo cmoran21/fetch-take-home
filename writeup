@@ -1,7 +1,7 @@
 1. Data Exploration
 	a. Are there any data quality issues present?
         - Before running any analysis on the data, I wanted to pull all of the csv files into MySQLWorkbench and create tables out of them. There were a number of issues that presented themselves while
-		  attempting to do this.
+attempting to do this.
 
         i. Users
             - There were lots of missing values in the birth_date field, which prevented the file from importing properly. When trying to import the unedited file, only the first 3 rows imported due to the 
