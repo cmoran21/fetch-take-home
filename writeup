@@ -1,11 +1,16 @@
 1. Data Exploration
 	a. Are there any data quality issues present?
-        - Before running any analysis on the data, I wanted to pull all of the csv files into MySQLWorkbench and create tables out of them. There were a number of issues that presented themselves while attempting to do this.
+        - Before running any analysis on the data, I wanted to pull all of the csv files into MySQLWorkbench and create tables out of them. There were a
+		  number of issues that presented themselves while attempting to do this.
 
         i. Users
-            - There were lots of missing values in the birth_date field, which prevented the file from importing properly. When trying to import the unedited file, only the first 3 rows imported due to the empty birth_date value in row 4. My solution to this was to use find and replace in Excel to fill all of the empty birth_date values with "0001-01-01 00:00:00.000 Z" to match the rest of the date formats and allow the file to import properly. I will filter out these values later as needed.
-            - There were also lots of missing values in the state, language, and gender fields. These did not prevent the file from uploading although I used 	find and replace here as well to fill all of the
-              empty values with "NULL" so they would be pulled in with null values instead of empty strings and be easier to work with later.
+            - There were lots of missing values in the birth_date field, which prevented the file from importing properly. When trying to import the unedited 
+			  file, only the first 3 rows imported due to the empty birth_date value in row 4. My solution to this was to use find and replace in Excel to fill 
+			  all of the empty birth_date values with "0001-01-01 00:00:00.000 Z" to match the rest of the date formats and allow the file to import properly. I
+			  will filter out these values later as needed.
+            - There were also lots of missing values in the state, language, and gender fields. These did not prevent the file from uploading although I used
+			  find and replace here as well to fill all of the empty values with "NULL" so they would be pulled in with null values instead of empty strings and
+			  be easier to work with later.
         ii. Transactions
             - This file had two date fields, but they were not formatted the same way. This prevented any records from importing when trying to import the raw file. To fix this issue, I created a custom 				  format in Excel for the purchase_date field that matched the date format of the scan_date field.
             - There were several barcodes that were formatted like "7.834E+11" in Excel as opposed to the full "783399746536". I switched this column to a number format and removed the decimals to get it 			  to show the whole barcode number in each row, which will be important for proper joining to the products table later.
