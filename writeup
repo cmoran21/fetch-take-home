@@ -1,3 +1,4 @@
+Markup :  Common text
 1. Data Exploration
     a. Are there any data quality issues present?
         - Before running any analysis on the data, I wanted to pull all of the csv files into MySQLWorkbench and create tables out of them. There were a number of issues that presented themselves while
